@@ -40,8 +40,7 @@ public class MainEntry {
 					try {
 						initialLevel = Integer.parseInt(args[1]);
 					} catch (NumberFormatException e) {
-						System.out
-								.println("wrong level number, will use the default one");
+						System.out.println("wrong level number, will use the default one");
 					}
 					na.currentLevel = initialLevel;
 					na.run();
@@ -51,15 +50,13 @@ public class MainEntry {
 					Thread thre = new Thread(new TestVision());
 					thre.start();
 				}
-			} else if (args.length == 3 && args[2].equalsIgnoreCase("-showSeg")
-					&& command.equalsIgnoreCase("-na")) {
+			} else if (args.length == 3 && args[2].equalsIgnoreCase("-showSeg") && command.equalsIgnoreCase("-na")) {
 				NaiveAgent na = new NaiveAgent();
 				int initialLevel = 1;
 				try {
 					initialLevel = Integer.parseInt(args[1]);
 				} catch (NumberFormatException e) {
-					System.out
-							.println("wrong level number, will use the default one");
+					System.out.println("wrong level number, will use the default one");
 				}
 				na.currentLevel = initialLevel;
 				Thread nathre = new Thread(na);

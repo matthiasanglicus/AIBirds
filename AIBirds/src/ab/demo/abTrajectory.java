@@ -27,6 +27,7 @@ import ab.utils.ShowDebuggingImage;
 import ab.vision.GameStateExtractor;
 import ab.vision.Vision;
 import ab.vision.VisionUtils;
+
 // User Interface of the trajectory module
 public class abTrajectory {
 	private static Proxy server;
