@@ -16,7 +16,7 @@ public class AIEntry {
 		switch(args.length){
 		case 0:
 			{
-				NaiveAgent na = new NaiveAgent();
+				StructureAgent na = new StructureAgent();
 				na.run();
 			}
 			break;

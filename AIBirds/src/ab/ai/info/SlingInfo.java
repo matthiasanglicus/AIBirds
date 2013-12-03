@@ -1,6 +1,7 @@
 package ab.ai.info;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class SlingInfo {
 		whiteBirds = vision.findWhiteBirds();
 		blackBirds = vision.findBlackBirds();
 		
-		
+		firingOrder = new ArrayList<Bird>();
 		//Combine the detected birds into a single list and sort them into their firing order
 		for(Rectangle b : redBirds)
 			firingOrder.add(new Bird(b, Bird.Color.RED));

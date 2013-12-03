@@ -17,9 +17,9 @@ public class BirdOrderComparator implements Comparator<Bird>{
 		double dist0 = Math.pow(bird0.position.getCenterX() - slingshot.getCenterX(), 2) + Math.pow(bird0.position.getCenterY() - slingshot.getCenterY(), 2);
 		double dist1 = Math.pow(bird1.position.getCenterX() - slingshot.getCenterX(), 2) + Math.pow(bird1.position.getCenterY() - slingshot.getCenterY(), 2);
 		if (dist0 > dist1){
-			return -1;
-		}else if (dist0 < dist1){
 			return 1;
+		}else if (dist0 < dist1){
+			return -1;
 		}else{
 			return 0;
 		}

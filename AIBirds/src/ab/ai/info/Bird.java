@@ -23,4 +23,9 @@ public class Bird {
 	public double getCenterY(){
 		return position.getCenterY();
 	}
+	
+	@Override
+	public String toString(){
+		return "[Bird, " + "C: " + color + ", X: " + getCenterX() + " Y: " + getCenterY() + "]";
+	}
 }

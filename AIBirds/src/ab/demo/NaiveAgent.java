@@ -77,8 +77,7 @@ public class NaiveAgent implements Runnable {
 					}
 					score = StateUtil.checkCurrentScore(ar.proxy);
 				}
-				System.out.println("###### The game score is " + score
-						+ "########");
+				System.out.println("###### The game score is " + score + "########");
 				ar.loadLevel(++currentLevel);
 				// make a new trajectory planner whenever a new level is entered
 				tp = new TrajectoryPlanner();
@@ -89,20 +88,14 @@ public class NaiveAgent implements Runnable {
 				System.out.println("restart");
 				ar.restartLevel();
 			} else if (state == GameState.LEVEL_SELECTION) {
-				System.out
-						.println("unexpected level selection page, go to the lasts current level : "
-								+ currentLevel);
+				System.out.println("unexpected level selection page, go to the lasts current level : " + currentLevel);
 				ar.loadLevel(currentLevel);
 			} else if (state == GameState.MAIN_MENU) {
-				System.out
-						.println("unexpected main menu page, go to the lasts current level : "
-								+ currentLevel);
+				System.out.println("unexpected main menu page, go to the lasts current level : " + currentLevel);
 				ActionRobot.GoFromMainMenuToLevelSelection();
 				ar.loadLevel(currentLevel);
 			} else if (state == GameState.EPISODE_MENU) {
-				System.out
-						.println("unexpected episode menu page, go to the lasts current level : "
-								+ currentLevel);
+				System.out.println("unexpected episode menu page, go to the lasts current level : " + currentLevel);
 				ActionRobot.GoFromMainMenuToLevelSelection();
 				ar.loadLevel(currentLevel);
 			}
@@ -112,9 +105,7 @@ public class NaiveAgent implements Runnable {
 	}
 
 	private double distance(Point p1, Point p2) {
-		return Math
-				.sqrt((double) ((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y)
-						* (p1.y - p2.y)));
+		return Math.sqrt((double) ((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
 	}
 
 	public GameState solve()
@@ -130,8 +121,7 @@ public class NaiveAgent implements Runnable {
 		Rectangle sling = vision.findSlingshot();
 
 		while (sling == null && ar.checkState() == GameState.PLAYING) {
-			System.out
-					.println("no slingshot detected. Please remove pop up or zoom out");
+			System.out.println("no slingshot detected. Please remove pop up or zoom out");
 			ar.fullyZoom();
 			screenshot = ActionRobot.doScreenShot();
 			vision = new Vision(screenshot);
@@ -145,8 +135,7 @@ public class NaiveAgent implements Runnable {
 		int bird_count = 0;
 		bird_count = red_birds.size() + blue_birds.size() + yellow_birds.size();
 
-		System.out.println("...found " + pigs.size() + " pigs and "
-				+ bird_count + " birds");
+		System.out.println("...found " + pigs.size() + " pigs and " + bird_count + " birds");
 		GameState state = ar.checkState();
 
 		// if there is a sling, then play, otherwise just skip.
@@ -163,8 +152,7 @@ public class NaiveAgent implements Runnable {
 
 					int index = r.nextInt(pigs.size());
 					Rectangle pig = pigs.get(index);
-					Point _tpt = new Point((int) pig.getCenterX(),
-							(int) pig.getCenterY());
+					Point _tpt = new Point((int) pig.getCenterX(), (int) pig.getCenterY());
 
 					System.out.println("the target point is " + _tpt);
 
@@ -199,12 +187,8 @@ public class NaiveAgent implements Runnable {
 					}
 					Point refPoint = tp.getReferencePoint(sling);
 					/* Get the center of the active bird */
-					focus_x = (int) ((Env.getFocuslist()
-							.containsKey(currentLevel)) ? Env.getFocuslist()
-							.get(currentLevel).getX() : refPoint.x);
-					focus_y = (int) ((Env.getFocuslist()
-							.containsKey(currentLevel)) ? Env.getFocuslist()
-							.get(currentLevel).getY() : refPoint.y);
+					focus_x = (int) ((Env.getFocuslist().containsKey(currentLevel)) ? Env.getFocuslist().get(currentLevel).getX() : refPoint.x);
+					focus_y = (int) ((Env.getFocuslist().containsKey(currentLevel)) ? Env.getFocuslist().get(currentLevel).getY() : refPoint.y);
 					System.out.println("the release point is: " + releasePoint);
 					/*
 					 * =========== Get the release point from the trajectory
@@ -212,22 +196,16 @@ public class NaiveAgent implements Runnable {
 					 */
 					System.out.println("Shoot!!");
 					if (releasePoint != null) {
-						double releaseAngle = tp.getReleaseAngle(sling,
-								releasePoint);
-						System.out.println(" The release angle is : "
-								+ Math.toDegrees(releaseAngle));
+						double releaseAngle = tp.getReleaseAngle(sling, releasePoint);
+						System.out.println(" The release angle is : " + Math.toDegrees(releaseAngle));
 						int base = 0;
 						if (releaseAngle > Math.PI / 4)
 							base = 1400;
 						else
 							base = 550;
 						int tap_time = (int) (base + Math.random() * 1500);
-						
-						
-						
-						shots.add(new Shot(focus_x, focus_y, (int) releasePoint
-								.getX() - focus_x, (int) releasePoint.getY()
-								- focus_y, 0, tap_time));
+
+						shots.add(new Shot(focus_x, focus_y, (int) releasePoint.getX() - focus_x, (int) releasePoint.getY() - focus_y, 0, tap_time));
 					} else
 						System.err.println("Out of Knowledge");
 				}
@@ -248,11 +226,10 @@ public class NaiveAgent implements Runnable {
 							List<Point> traj = vision.findTrajPoints();
 							tp.adjustTrajectory(traj, sling, releasePoint);
 							firstShot = false;
-							
+
 						}
 					} else
-						System.out
-								.println("scale is changed, can not execute the shot, will re-segement the image");
+						System.out.println("scale is changed, can not execute the shot, will re-segement the image");
 				}
 
 			}
