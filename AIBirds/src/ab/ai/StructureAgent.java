@@ -45,18 +45,23 @@ public class StructureAgent implements Runnable {
 			screenshot = ActionRobot.doScreenShot();
 			vision = new Vision(screenshot);
 		}
+
 		info = new GameInfo(vision);
 		GameState state = ar.checkState();
-		
-		Point target = new Point(600, 300);
-		ArrayList<Point> pts = tp.estimateLaunchPoint(info.slingInfo.slingshot, target);
-		Point releasePoint = pts.get(0);
-		Point refPoint = tp.getReferencePoint(info.slingInfo.slingshot);
-		ArrayList<Shot> shots = new ArrayList<Shot>();
-		shots.add(new Shot(refPoint.x, refPoint.y, (int) releasePoint.getX() - refPoint.x, (int) releasePoint.getY() - refPoint.y, 0, 1500));
+		Point target = new Point((int)info.obstacleInfo.stones.get(0).x, (int)info.obstacleInfo.stones.get(0).y);
+		ArrayList<Shot> shots = aimAtTarget(target);
 		state = ar.shootWithStateInfoReturned(shots);
 		
 		return state;
 	}
 
+	private ArrayList<Shot> aimAtTarget(Point target) {
+		ArrayList<Point> pts = tp.estimateLaunchPoint(info.slingInfo.slingshot, target);
+		Point releasePoint = pts.get(0);
+		Point refPoint = tp.getReferencePoint(info.slingInfo.slingshot);
+		ArrayList<Shot> shots = new ArrayList<Shot>();
+		shots.add(new Shot(refPoint.x, refPoint.y, (int) releasePoint.getX() - refPoint.x, (int) releasePoint.getY() - refPoint.y, 0, 1500));
+		return shots;
+	} 
+	
 }

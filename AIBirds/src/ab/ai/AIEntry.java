@@ -16,23 +16,23 @@ public class AIEntry {
 		switch(args.length){
 		case 0:
 			{
-				StructureAgent na = new StructureAgent();
-				na.run();
+				StructureAgent sa = new StructureAgent();
+				sa.run();
 			}
 			break;
 		case 1:
 			if(args[0].equals("-ai")){
-				NaiveAgent na = new NaiveAgent();
-				na.run();
+				StructureAgent sa = new StructureAgent();
+				sa.run();
 			}else{
 				System.out.println("Unrecognized Parameters");
 			}
 			break;
 		case 2:
 			if(args[0].equals("-ai") && args[1].equals("-showSeg")){
-				NaiveAgent na = new NaiveAgent();
-				Thread nathre = new Thread(na);
-				nathre.start();
+				StructureAgent sa = new StructureAgent();
+				Thread sathre = new Thread(sa);
+				sathre.start();
 				Thread thre = new Thread(new TestVision());
 				thre.start();
 			}else if(args[0].equals("-ai")){
