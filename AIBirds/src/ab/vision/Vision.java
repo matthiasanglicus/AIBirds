@@ -515,7 +515,7 @@ public class Vision {
 
 		for (int i = 0; i < _nHeight; i++) {
 			for (int j = 0; j < _nWidth; j++) {
-				if ((_scene[i][j] != 365) || ignorePixel[i][j])
+				if (((_scene[i][j] != 365) && (_scene[i][j] != 292)) || ignorePixel[i][j])
 					continue;
 				Rectangle obj = new Rectangle(j, i, 0, 0);
 				LinkedList<Point> l = new LinkedList<Point>();
@@ -528,27 +528,27 @@ public class Vision {
 					// check if the colours of the adjacent points of p is
 					// belong to stone
 					if (p.y < _nHeight - 1)
-						if ((_scene[p.y + 1][p.x] == 365)
+						if (((_scene[p.y + 1][p.x] == 365) || (_scene[p.y + 1][p.x] == 292) )
 								&& !ignorePixel[p.y + 1][p.x]) {
 							l.add(new Point(p.x, p.y + 1));
 							obj.add(p.x, p.y + 1);
 						}
 					if (p.x < _nWidth - 1)
-						if ((_scene[p.y][p.x + 1] == 365)
+						if (((_scene[p.y][p.x + 1] == 365) || (_scene[p.y][p.x+1] == 292))
 								&& !ignorePixel[p.y][p.x + 1]) {
 							l.add(new Point(p.x + 1, p.y));
 							obj.add(p.x + 1, p.y);
 						}
 
 					if (p.y > 0)
-						if ((_scene[p.y - 1][p.x] == 365)
+						if (((_scene[p.y - 1][p.x] == 365) || (_scene[p.y - 1][p.x] == 292))
 								&& !ignorePixel[p.y - 1][p.x]) {
 							l.add(new Point(p.x, p.y - 1));
 							obj.add(p.x, p.y - 1);
 						}
 
 					if (p.x > 0)
-						if ((_scene[p.y][p.x - 1] == 365)
+						if (((_scene[p.y][p.x - 1] == 365) ||(_scene[p.y][p.x - 1] == 292))
 								&& !ignorePixel[p.y][p.x - 1]) {
 							l.add(new Point(p.x - 1, p.y));
 							obj.add(p.x - 1, p.y);
@@ -789,7 +789,7 @@ public class Vision {
 
 		for (int i = 0; i < _nHeight; i++) {
 			for (int j = 0; j < _nWidth; j++) {
-				if ((_scene[i][j] != 365 && _scene[i][j] != 366 && _scene[i][j] != 438)
+				if ((_scene[i][j] != 365 && _scene[i][j] != 366 && _scene[i][j] != 438 )
 						|| ignorePixel[i][j])
 					continue;
 				Rectangle obj = new Rectangle(j, i, 0, 0);
@@ -804,57 +804,57 @@ public class Vision {
 					// belong to traj Points
 					if (p.y < _nHeight - 1 && p.x < _nWidth - 1 && p.y > 0
 							&& p.x > 0) {
-						if ((_scene[p.y + 1][p.x] == 365
-								|| _scene[p.y + 1][p.x] == 366 || _scene[p.y + 1][p.x] == 438)
+						if ((_scene[p.y + 1][p.x] == 365 || _scene[p.y + 1][p.x] == 366 
+								|| _scene[p.y + 1][p.x] == 438 )
 								&& !ignorePixel[p.y + 1][p.x]) {
 							l.add(new Point(p.x, p.y + 1));
 							obj.add(p.x, p.y + 1);
 						}
 
-						if ((_scene[p.y][p.x + 1] == 365
-								|| _scene[p.y][p.x + 1] == 366 || _scene[p.y][p.x + 1] == 438)
+						if ((_scene[p.y][p.x + 1] == 365 || _scene[p.y][p.x + 1] == 366 
+								|| _scene[p.y][p.x + 1] == 438 )
 								&& !ignorePixel[p.y][p.x + 1]) {
 							l.add(new Point(p.x + 1, p.y));
 							obj.add(p.x + 1, p.y);
 						}
 
-						if ((_scene[p.y - 1][p.x] == 365
-								|| _scene[p.y - 1][p.x] == 366 || _scene[p.y - 1][p.x] == 438)
+						if ((_scene[p.y - 1][p.x] == 365 || _scene[p.y - 1][p.x] == 366 
+								|| _scene[p.y - 1][p.x] == 438 )
 								&& !ignorePixel[p.y - 1][p.x]) {
 							l.add(new Point(p.x, p.y - 1));
 							obj.add(p.x, p.y - 1);
 						}
 
-						if ((_scene[p.y][p.x - 1] == 365
-								|| _scene[p.y][p.x - 1] == 366 || _scene[p.y][p.x - 1] == 438)
+						if ((_scene[p.y][p.x - 1] == 365 || _scene[p.y][p.x - 1] == 366 
+								|| _scene[p.y][p.x - 1] == 438 )
 								&& !ignorePixel[p.y][p.x - 1]) {
 							l.add(new Point(p.x - 1, p.y));
 							obj.add(p.x - 1, p.y);
 						}
 
-						if ((_scene[p.y - 1][p.x - 1] == 365
-								|| _scene[p.y - 1][p.x - 1] == 366 || _scene[p.y - 1][p.x - 1] == 438)
+						if ((_scene[p.y - 1][p.x - 1] == 365 || _scene[p.y - 1][p.x - 1] == 366 
+								|| _scene[p.y - 1][p.x - 1] == 438 )
 								&& !ignorePixel[p.y - 1][p.x - 1]) {
 							l.add(new Point(p.x - 1, p.y - 1));
 							obj.add(p.x - 1, p.y - 1);
 						}
 
-						if ((_scene[p.y - 1][p.x + 1] == 365
-								|| _scene[p.y - 1][p.x + 1] == 366 || _scene[p.y - 1][p.x + 1] == 438)
+						if ((_scene[p.y - 1][p.x + 1] == 365 || _scene[p.y - 1][p.x + 1] == 366 
+								|| _scene[p.y - 1][p.x + 1] == 438)
 								&& !ignorePixel[p.y - 1][p.x + 1]) {
 							l.add(new Point(p.x + 1, p.y - 1));
 							obj.add(p.x + 1, p.y - 1);
 						}
 
-						if ((_scene[p.y + 1][p.x + 1] == 365
-								|| _scene[p.y + 1][p.x + 1] == 366 || _scene[p.y + 1][p.x + 1] == 438)
+						if ((_scene[p.y + 1][p.x + 1] == 365 || _scene[p.y + 1][p.x + 1] == 366 
+								|| _scene[p.y + 1][p.x + 1] == 438 )
 								&& !ignorePixel[p.y + 1][p.x + 1]) {
 							l.add(new Point(p.x + 1, p.y + 1));
 							obj.add(p.x + 1, p.y + 1);
 						}
 
-						if ((_scene[p.y + 1][p.x - 1] == 365
-								|| _scene[p.y + 1][p.x - 1] == 366 || _scene[p.y + 1][p.x - 1] == 438)
+						if ((_scene[p.y + 1][p.x - 1] == 365 || _scene[p.y + 1][p.x - 1] == 366 
+								|| _scene[p.y + 1][p.x - 1] == 438 )
 								&& !ignorePixel[p.y + 1][p.x - 1]) {
 							l.add(new Point(p.x - 1, p.y + 1));
 							obj.add(p.x - 1, p.y + 1);
