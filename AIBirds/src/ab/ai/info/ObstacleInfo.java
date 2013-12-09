@@ -2,6 +2,7 @@ package ab.ai.info;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class ObstacleInfo {
 					visited.add(component);
 				}
 			}
+			Collections.sort(building, new StructureHeightComparator());
 			buildings.add(building);
 		}
 		return buildings;
@@ -72,7 +74,11 @@ public class ObstacleInfo {
 	private void connectPieces(List<Structure> pieces) {
 		for (Structure piece : pieces) {
 			Rectangle enlarged = (Rectangle) piece.pos.clone();
-			enlarged.grow(5, 5);
+			if (piece.type != Structure.Type.ROCK){
+				enlarged.grow(5, 5);
+			}else{
+				enlarged = new Rectangle(enlarged.x - 5, enlarged.y - 10, enlarged.width + 10, enlarged.height + 20);
+			}
 			for (Structure piece2 : pieces) {
 				if (piece != piece2) {
 					if (enlarged.intersects(piece2.pos) && !piece.neighbors.contains(piece2)) {
