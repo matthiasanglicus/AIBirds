@@ -15,8 +15,8 @@ public class Shot {
 	
 	private int x;
 	private int y;
-	private int dx;
-	private int dy;
+	private int dx; //Think this is release point x --EJ
+	private int dy;// This is release point y -- EJ
 	public int getDx() {
 		return dx;
 	}

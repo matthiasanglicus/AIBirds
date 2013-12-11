@@ -144,7 +144,7 @@ public class TestVision implements Runnable {
 				startx += 10;
 			}
 			if (W.get(0, 0) > 0)
-				VisionUtils.drawtrajectory(screenshot, p, Color.RED);
+				VisionUtils.drawtrajectory(screenshot, p, Color.BLUE);
 
 		}
 

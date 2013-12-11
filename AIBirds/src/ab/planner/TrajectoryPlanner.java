@@ -306,15 +306,18 @@ public class TrajectoryPlanner {
         
         // draw estimated trajectory
         Graphics2D g2d = canvas.createGraphics();
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.BLUE);
         for (Point p : trajectory) {
             if ((p.y > 0) && (p.y < canvas.getHeight(null))) {
+            	
                 g2d.drawRect(p.x, p.y, 1, 1);
             }
         }
         
         return canvas; 
     }
+    
+    
 
     // plot trajectory given the bounding box of the active bird
     public BufferedImage plotTrajectory(BufferedImage canvas, Rectangle slingshot, Rectangle activeBird) {
@@ -373,7 +376,7 @@ public class TrajectoryPlanner {
     }
     
     // predicts a trajectory
-    private List<Point> predictTrajectory(Rectangle slingshot, Point launchPoint, int X_MAX) {
+    public List<Point> predictTrajectory(Rectangle slingshot, Point launchPoint, int X_MAX) {
         setTrajectory(slingshot, launchPoint);
 	    return _trajectory;
     }
