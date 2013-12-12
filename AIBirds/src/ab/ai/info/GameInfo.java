@@ -17,4 +17,6 @@ public class GameInfo {
 		slingInfo = new SlingInfo(vision);
 		obstacleInfo = new ObstacleInfo(vision);
 	}
+	
+	
 }

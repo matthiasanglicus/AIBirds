@@ -2,8 +2,6 @@ package ab.ai.info;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import ab.vision.Vision;
@@ -19,7 +17,7 @@ public class ObstacleInfo {
 	public List<Rectangle> ice;
 	public List<Rectangle> tnt;
 
-	public List<List<Structure>> buildings;
+	public List<Building> buildings;
 	public List<Structure> parts;
 
 	public ObstacleInfo(Vision vision) {
@@ -38,34 +36,66 @@ public class ObstacleInfo {
 			parts.add(new Structure(s, Structure.Type.ICE));
 		connectPieces(parts);
 		buildings = findBuildings(parts);
-		
+
 	}
 
-	private List<List<Structure>> findBuildings(List<Structure> pieces) {
-		//The List of found structures
-		List<List<Structure>> buildings = new ArrayList<List<Structure>>();
-		//This list holds parts we discover to be part of the building (the neighbors of parts in the building)
+	public void weighBuildings() {
+		weighBuildings(buildings);
+	}
+
+	public void weighBuildings(List<Building> buildings) {
+		for (Building b : buildings) {
+			b.weighParts();
+		}
+	}
+
+	public List<Building> importantBuildings() {
+		List<Building> targets = new ArrayList<Building>();
+		for (Rectangle pig : pigs) {
+			Rectangle bigPig = (Rectangle) pig.clone();
+			bigPig.grow(pig.height, pig.width);
+			for (Building b : buildings) {
+				for (Structure s : b.parts) {
+					if (bigPig.intersects(s.pos)) {
+						if (!targets.contains(b)) {
+							targets.add(b);
+						}
+						b.pigCount++;
+						break;
+					}
+				}
+			}
+		}
+		return targets;
+	}
+
+	private List<Building> findBuildings(List<Structure> pieces) {
+		// The List of found structures
+		List<Building> buildings = new ArrayList<Building>();
+		// This list holds parts we discover to be part of the building (the
+		// neighbors of parts in the building)
 		List<Structure> neighborhood = new ArrayList<Structure>();
-		//Structure parts we've visited before to avoid reapplying the same pieces
+		// Structure parts we've visited before to avoid reapplying the same
+		// pieces
 		List<Structure> visited = new ArrayList<Structure>();
 
 		for (Structure s : pieces) {
-			if(visited.contains(s)){
+			if (visited.contains(s)) {
 				continue;
 			}
-			List<Structure> building = new ArrayList<Structure>();
+			Building building = new Building();
 			neighborhood.add(s);
-			while (!neighborhood.isEmpty()) { //Iterate until we've run out of neighbors to expand
+			while (!neighborhood.isEmpty()) { // Iterate until we've run out of
+												// neighbors to expand
 				Structure component = neighborhood.remove(0);
-				if (!visited.contains(component)){
-					if (!building.contains(component)) {
-						building.add(component);
+				if (!visited.contains(component)) {
+					if (!building.parts.contains(component)) {
+						building.parts.add(component);
 						neighborhood.addAll(component.neighbors);
 					}
 					visited.add(component);
 				}
 			}
-			Collections.sort(building, new StructureHeightComparator());
 			buildings.add(building);
 		}
 		return buildings;
@@ -74,11 +104,8 @@ public class ObstacleInfo {
 	private void connectPieces(List<Structure> pieces) {
 		for (Structure piece : pieces) {
 			Rectangle enlarged = (Rectangle) piece.pos.clone();
-			if (piece.type != Structure.Type.ROCK){
-				enlarged.grow(5, 5);
-			}else{
-				enlarged = new Rectangle(enlarged.x - 5, enlarged.y - 10, enlarged.width + 10, enlarged.height + 20);
-			}
+			enlarged.grow(5, 5);
+
 			for (Structure piece2 : pieces) {
 				if (piece != piece2) {
 					if (enlarged.intersects(piece2.pos) && !piece.neighbors.contains(piece2)) {

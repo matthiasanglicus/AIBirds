@@ -1,6 +1,9 @@
 package ab.ai.info;
 
 import java.awt.Rectangle;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Bird contains the position rectangle and color of a bird.
@@ -28,4 +31,5 @@ public class Bird {
 	public String toString(){
 		return "[Bird, " + "C: " + color + ", X: " + getCenterX() + " Y: " + getCenterY() + "]";
 	}
+	
 }
