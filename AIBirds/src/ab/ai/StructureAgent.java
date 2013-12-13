@@ -128,7 +128,7 @@ public class StructureAgent implements Runnable {
 			}
 
 			ArrayList<Shot> shots = aimAtTarget(target);
-			// parabolaTest(screenshot, target);
+			parabolaTest(screenshot, target);
 
 			state = ar.shootWithStateInfoReturned(shots);
 		}

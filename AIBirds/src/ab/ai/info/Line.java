@@ -14,14 +14,36 @@ public class Line{
     	start = s;
     	end = e;
     	lineDiagonal.add(end);
-
-        for(int i = end.x; i < start.x; i++)
-        {
-        	for(int j = end.y; j > start.y; j++){
-        		Point temp = new Point(i, j);
-        		lineDiagonal.add(temp);
-        	}
-        }
+    	
+    	
+    	///vertical line
+    	if(end.x == start.x){
+    		for(int i = end.y; i < start.y; i++){
+    			Point temp = new Point(start.x, i);
+    			lineDiagonal.add(temp);
+    		}
+    	}
+    	//horizontal line
+    	else if(end.y == start.y)
+    	{
+    		for(int i = end.x; i < start.x; i++)
+    		{
+    			Point temp = new Point(i, start.y);
+    			lineDiagonal.add(temp);
+    		}
+    	}
+    	else
+    	{
+    		double increment = (end.y - start.y) / (end.x - start.x);
+    		for(int i = end.x; i < start.x; i++)
+    		{
+    			for(double j = end.y; j < start.y; j+=increment){
+    				Point temp = new Point(i, (int)j);
+    				lineDiagonal.add(temp);
+    			}
+    		}
+    	}
+    	
         
         lineDiagonal.add(start);
     } 
