@@ -53,7 +53,7 @@ public class ObstacleInfo {
 		List<Building> targets = new ArrayList<Building>();
 		for (Rectangle pig : pigs) {
 			Rectangle bigPig = (Rectangle) pig.clone();
-			bigPig.grow(pig.height, pig.width);
+			bigPig.grow((int)(pig.height * 1.5), (int)(pig.width * 1.5));
 			for (Building b : buildings) {
 				for (Structure s : b.parts) {
 					if (bigPig.intersects(s.pos)) {

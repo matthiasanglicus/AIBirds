@@ -114,13 +114,57 @@ public class StructureAgent implements Runnable {
 						selected = b;
 					}
 				}
-				Structure.sortLowestXValue(selected.parts);
-				for (Structure s : selected.parts) {
-					if (s.value == selected.highestWeight) {
-						target = new Point((int) s.pos.getCenterX(), (int) s.pos.getCenterY());
-						break;
+				List<Structure> closest = new ArrayList<Structure>(selected.parts);
+				Structure.sortLowestXValue(closest);
+				List<Structure> highest = new ArrayList<Structure>(selected.parts);
+				Structure.sortHighestValue(highest);
+				Structure highestPart = highest.get(0);
+				
+				boolean searching = true;
+				Point firstTarget = null;
+				while (searching) {
+					for (Structure s : closest) {
+						if (s.value == highestPart.value) {
+							highestPart = s;
+							target = new Point((int) s.pos.getCenterX(), (int) s.pos.getCenterY());
+							break;
+						}
+					}
+					if (lineTest(highestPart, 40).size() == 0) {
+						searching = false;
+					} else {
+						highest.remove(highestPart);
+						closest.remove(highestPart);
+						if (highest.size() > 0) {
+							highestPart = highest.get(0);
+						}else{
+							target = firstTarget;
+							searching = false;
+							break;
+						}
+						//Save the first target just incase we can't find a better one
+						if (firstTarget == null) 
+							firstTarget = target;
 					}
 				}
+//				List<Structure> obstruction = parabolaTest(target, -40);
+//				if(obstruction.size() > 1){
+//					int rock = 0;
+//					for(Structure s : obstruction){
+//						if(s.type == Structure.Type.ROCK)
+//							rock++;
+//					}
+//					if(rock > 1){
+//						Structure.sortHighestValue(selected.parts);
+//						for(Structure s : selected.parts){
+//							if(parabolaTest(s, 40).size() > 0 && s.type != Structure.Type.ROCK){
+//								target = new Point((int)s.pos.getCenterX(), (int)s.pos.getCenterY());
+//								break;
+//							}
+//						}
+//					}
+//				}
+				
 			} else {
 				System.out.println("No Important Building Found, aiming at a pig");
 				Rectangle pig = info.obstacleInfo.pigs.get(0);
@@ -128,7 +172,6 @@ public class StructureAgent implements Runnable {
 			}
 
 			ArrayList<Shot> shots = aimAtTarget(target);
-			parabolaTest(screenshot, target);
 
 			state = ar.shootWithStateInfoReturned(shots);
 		}
@@ -143,69 +186,37 @@ public class StructureAgent implements Runnable {
 		shots.add(new Shot(refPoint.x, refPoint.y, (int) releasePoint.getX() - refPoint.x, (int) releasePoint.getY() - refPoint.y, 0, 1500));
 		return shots;
 	}
-
-	private void parabolaTest(BufferedImage bi, Point target) {
+	private List<Structure> lineTest(Structure target, int dist){
+		List<Structure> collisions = lineTest(new Point((int)target.pos.getCenterX(), (int)target.pos.getCenterY()), dist);
+		collisions.remove(target);
+		return collisions;
+		
+	}
+	private List<Structure> lineTest(Point target, int dist) {
 
 		// Array to hold rectangles they have already collided with
-		List<Rectangle> collision = new ArrayList<Rectangle>();
+		List<Structure> collision = new ArrayList<Structure>();
 		// Array to hold type of things it has collided with
 		List<String> holder = new ArrayList<String>();
 
 		// Find the end point of our diagonal test
-		Point end = new Point(target.x - 40, target.y - 40);
+		Point end = new Point(target.x - dist, target.y);
 		// Point end = new Point(target.x + 40, target.y);
 		Line testLine = new Line(target, end);
 
 		List<Point> testingLine = testLine.getDiagonalPoints();
 
 		for (Point po : testingLine) {
-			boolean t = false;
-
-			for (Rectangle r : info.obstacleInfo.stones) {
-				if (r.contains(po)) {
-					if (!collision.contains(r)) {
-						holder.add(" rock ");
-						collision.add(r);
-						// t = true;
+			for (Structure s : info.obstacleInfo.parts) {
+				if (s.pos.contains(po)) {
+					if(!collision.contains(s)){
+						collision.add(s);
+						holder.add(" " + s.type + " ");
 					}
-					break;
 				}
 			}
-			// if (t)
-			// continue;
-
-			for (Rectangle r : info.obstacleInfo.wood) {
-				if (r.contains(po)) {
-					if (!collision.contains(r)) {
-						holder.add(" wood ");
-						collision.add(r);
-						// t = true;
-					}
-					break;
-				}
-			}
-			// if (t)
-			// continue;
-
-			for (Rectangle r : info.obstacleInfo.ice) {
-				if (r.contains(po)) {
-					if (!collision.contains(r)) {
-						holder.add(" ice ");
-						collision.add(r);
-						// t = true;
-					}
-					break;
-				}
-			}
-			// if (t)
-			// continue;
-
 		}
 
-		System.out.println("Line thinks it collided with:");
-		for (String r : holder) {
-			System.out.print(r);
-		}
-
+		return collision;
 	}
 }
